@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Traffic Management CCTV</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div>
+        <p class="eyebrow">SMART CITY SURVEILLANCE</p>
+        <h1>AI Traffic Management CCTV</h1>
+        <p class="subtitle">Real-time camera monitoring, traffic analytics and recording</p>
+      </div>
+
+      <div class="header-right">
+        <div id="currentDateTime" class="datetime">Loading date and time...</div>
+        <span id="status" class="status offline">Camera offline</span>
+      </div>
+    </header>
+
+    <section class="dashboard">
+      <article class="camera-card">
+        <div class="section-heading">
+          <div>
+            <h2>Live CCTV Feed</h2>
+            <span id="cameraName">Default camera</span>
+          </div>
+          <span id="aiStatus" class="ai-status">AI standby</span>
+        </div>
+
+        <div class="video-wrapper">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="overlayCanvas"></canvas>
+          <div id="motionIndicator" class="motion-indicator">Motion detected</div>
+          <div id="loading" class="loading">Camera is not started</div>
+          <div class="recording-badge" id="recordingBadge">● REC</div>
+        </div>
+
+        <div class="camera-info">
+          <span>Resolution <strong id="resolution">-</strong></span>
+          <span>Recording <strong id="recordingStatus">No</strong></span>
+          <span>Motion <strong id="motionStatus">Inactive</strong></span>
+          <span>Last scan <strong id="lastScan">Never</strong></span>
+        </div>
+      </article>
+
+      <aside class="analytics-card">
+        <div class="section-heading">
+          <div>
+            <h2>Traffic Analytics</h2>
+            <span>Current camera frame</span>
+          </div>
+          <span class="live-dot">LIVE</span>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric">
+            <span class="metric-icon">🚗</span>
+            <strong id="vehicleCount">0</strong>
+            <small>Vehicles</small>
+          </div>
+          <div class="metric">
+            <span class="metric-icon">🏍️</span>
+            <strong id="motorcycleCount">0</strong>
+            <small>Motorcycles</small>
+          </div>
+          <div class="metric">
+            <span class="metric-icon">🚌</span>
+            <strong id="busCount">0</strong>
+            <small>Buses</small>
+          </div>
+          <div class="metric">
+            <span class="metric-icon">🚶</span>
+            <strong id="personCount">0</strong>
+            <small>People</small>
+          </div>
+        </div>
+
+        <div class="traffic-summary">
+          <span>Traffic level</span>
+          <strong id="trafficLevel" class="low">Low</strong>
+        </div>
+
+        <div class="detection-list">
+          <h3>Detected objects</h3>
+          <ul id="scanResults">
+            <li class="empty">No objects detected yet.</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section class="controls panel">
+      <h2>Camera Controls</h2>
+      <div class="button-grid">
+        <button id="startCamera" class="primary">▶ Start Camera</button>
+        <button id="stopCamera" disabled>■ Stop Camera</button>
+        <button id="takeSnapshot" disabled>📸 Take Snapshot</button>
+        <button id="startRecording" disabled>● Start Recording</button>
+        <button id="stopRecording" disabled>■ Stop Recording</button>
+        <button id="scanObject" disabled>🔍 Scan Now</button>
+      </div>
+    </section>
+
+    <section class="settings panel">
+      <h2>System Settings</h2>
+      <div class="settings-grid">
+        <label for="cameraSelect">Camera device</label>
+        <select id="cameraSelect">
+          <option value="">Default camera</option>
+        </select>
+
+        <label for="zoom">Digital zoom</label>
+        <div class="range-control">
+          <input id="zoom" type="range" min="1" max="1" step="0.1" value="1" disabled>
+          <span id="zoomValue">1x</span>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" id="motionDetection">
+          Enable motion detection
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" id="autoScan" checked>
+          Enable automatic AI scanning
+        </label>
+      </div>
+    </section>
+
+    <section class="results panel">
+      <div class="section-heading">
+        <div>
+          <h2>System Events</h2>
+          <span>Operational activity log</span>
+        </div>
+        <button id="clearEvents" class="small-button">Clear</button>
+      </div>
+      <ul id="eventLog" class="event-log"></ul>
+    </section>
+
+    <section class="gallery panel">
+      <div class="section-heading">
+        <div>
+          <h2>Captured Files</h2>
+          <span>Snapshots and recorded clips</span>
+        </div>
+        <span id="fileCount">0 files</span>
+      </div>
+      <div id="gallery" class="gallery-grid">
+        <p class="empty">No files captured yet.</p>
+      </div>
+    </section>
+
+    <canvas id="canvas" hidden></canvas>
+    <canvas id="motionCanvas" hidden></canvas>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+  <script src="script.js"></script>
+</body>
+</html>
