@@ -1,0 +1,419 @@
+:root {
+  --bg: #08111f;
+  --panel: #111e31;
+  --panel-light: #172941;
+  --border: #263b57;
+  --text: #e9f1fb;
+  --muted: #91a4bd;
+  --blue: #31a8ff;
+  --green: #27d17f;
+  --red: #ff5571;
+  --yellow: #ffc857;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, #163252 0, transparent 32rem),
+    var(--bg);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.app {
+  width: min(1400px, 100%);
+  margin: auto;
+}
+
+.header,
+.section-heading,
+.camera-info,
+.traffic-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0 0 6px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 8px;
+  font-size: clamp(26px, 4vw, 42px);
+}
+
+h2 {
+  margin-bottom: 4px;
+  font-size: 19px;
+}
+
+h3 {
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.subtitle,
+.section-heading span,
+#cameraName {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.datetime {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.status,
+.ai-status,
+.live-dot {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.online,
+.ai-status.ready {
+  color: #061b12;
+  background: var(--green);
+}
+
+.status.offline,
+.ai-status {
+  color: #ffdbe1;
+  background: #672639;
+}
+
+.live-dot {
+  color: white;
+  background: var(--red);
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+  gap: 18px;
+}
+
+.camera-card,
+.analytics-card,
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(17, 30, 49, .94);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .18);
+}
+
+.camera-card,
+.analytics-card,
+.panel {
+  padding: 20px;
+}
+
+.video-wrapper {
+  position: relative;
+  min-height: 300px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #03070d;
+  aspect-ratio: 16 / 9;
+}
+
+video,
+#overlayCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#overlayCanvas {
+  pointer-events: none;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: rgba(3, 7, 13, .7);
+}
+
+.motion-indicator,
+.recording-badge {
+  position: absolute;
+  display: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.motion-indicator {
+  left: 12px;
+  top: 12px;
+  color: #271a00;
+  background: var(--yellow);
+}
+
+.recording-badge {
+  top: 12px;
+  right: 12px;
+  color: white;
+  background: var(--red);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: .35; }
+}
+
+.camera-info {
+  flex-wrap: wrap;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.camera-info strong {
+  color: var(--text);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.metric {
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-light);
+}
+
+.metric-icon {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.metric strong {
+  display: block;
+  font-size: 27px;
+}
+
+.metric small {
+  color: var(--muted);
+}
+
+.traffic-summary {
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.traffic-summary strong.low { color: var(--green); }
+.traffic-summary strong.medium { color: var(--yellow); }
+.traffic-summary strong.high { color: var(--red); }
+
+.detection-list {
+  margin-top: 20px;
+}
+
+#scanResults,
+.event-log {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#scanResults li {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 10px 0;
+}
+
+.panel {
+  margin-top: 18px;
+}
+
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button,
+select {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 11px 14px;
+  color: var(--text);
+  background: var(--panel-light);
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--blue);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .4;
+}
+
+button.primary {
+  color: #001421;
+  border-color: var(--blue);
+  background: var(--blue);
+  font-weight: bold;
+}
+
+.small-button {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 160px minmax(180px, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.range-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+input[type="range"] {
+  width: min(320px, 100%);
+  accent-color: var(--blue);
+}
+
+.checkbox {
+  grid-column: 2;
+  color: var(--text);
+}
+
+.checkbox input {
+  accent-color: var(--blue);
+  margin-right: 8px;
+}
+
+.event-log {
+  max-height: 180px;
+  overflow-y: auto;
+  margin-top: 14px;
+}
+
+.event-log li {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.event-log time {
+  color: var(--blue);
+  margin-right: 12px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.file-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-light);
+}
+
+.file-card img,
+.file-card video {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  background: #03070d;
+}
+
+.file-card p {
+  margin: 0;
+  padding: 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 850px) {
+  body { padding: 14px; }
+  .dashboard { grid-template-columns: 1fr; }
+  .header { align-items: flex-start; flex-direction: column; }
+  .header-right { text-align: left; }
+}
+
+@media (max-width: 500px) {
+  .settings-grid { grid-template-columns: 1fr; }
+  .checkbox { grid-column: 1; }
+}
